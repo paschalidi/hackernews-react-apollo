@@ -1,68 +1,91 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React & Apollo Tutorial
 
-## Available Scripts
+This is the sample project that belongs to the [React & Apollo Tutorial](https://www.howtographql.com/react-apollo/0-introduction/) on How to GraphQL.
 
-In the project directory, you can run:
+## How to use
 
-### `npm start`
+### 1. Clone repository
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```sh
+git clone https://github.com/howtographql/react-apollo/
+```
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### 2. Install dependencies & Deploy the Prisma database API
 
-### `npm test`
+To install the Prisma CLI globally with Yarn, use the following command:
+```sh
+yarn global add prisma
+```
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Also, run the following commands:
+```sh
+cd react-apollo/server
+yarn install
+prisma deploy
+```
 
-### `npm run build`
+Then, follow these steps in the interactive CLI wizard:
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Select **Demo server**
+1. **Authenticate** with Prisma Cloud in your browser (if necessary)
+1. Back in your terminal, **confirm all suggested values**
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+<details>
+ <summary>Alternative: Run Prisma locally via Docker</summary>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Ensure you have Docker installed on your machine. If not, you can get it from [here](https://store.docker.com/search?offering=community&type=edition).
+1. Create `docker-compose.yml` for MySQL (see [here](https://www.prisma.io/docs/prisma-server/database-connector-POSTGRES-jgfr/) for Postgres):
+    ```yml
+    version: '3'
+    services:
+      prisma:
+        image: prismagraphql/prisma:1.23
+        restart: always
+        ports:
+        - "4466:4466"
+        environment:
+          PRISMA_CONFIG: |
+            port: 4466
+            databases:
+              default:
+                connector: mysql
+                host: mysql
+                port: 3306
+                user: root
+                password: prisma
+                migrations: true
+      mysql:
+        image: mysql:5.7
+        restart: always
+        environment:
+          MYSQL_ROOT_PASSWORD: prisma
+        volumes:
+          - mysql:/var/lib/mysql
+    volumes:
+      mysql:
+    ```
+1. Run `docker-compose up -d`
+1. Run `prisma deploy`
 
-### `npm run eject`
+</details>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### 3. Start the server
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To start the server, all you need to do is execute the `start` script by running the following command inside the `server` directory:
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```sh
+yarn start
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+> **Note**: If you want to interact with the GraphQL API of the server inside a [GraphQL Playground](https://github.com/prisma/graphql-playground), you can navigate to [http://localhost:4000](http://localhost:4000).
 
-## Learn More
+### 4. Run the app
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Now that the server is running, you can start the React app as well. The commands need to be run in a new terminal tab/window inside the root directory `react-apollo` (because the current tab is blocked by the process running the server):
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```sh
+yarn install
+yarn start
+```
 
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+You can now open your browser and use the app on [http://localhost:3000](http://localhost:3000).

@@ -1,6 +1,6 @@
 # Specifies the HTTP endpoint of your Prisma API.
 #endpoint: ''
-endpoint: https://eu1.prisma.sh/paschalidi/hacker-news-apollo/dev
+endpoint: https://eu1.prisma.sh/paschalidi/apollo-clone/dev
 
 # Defines your models, each model is mapped to the database as a table.
 datamodel: datamodel.prisma
