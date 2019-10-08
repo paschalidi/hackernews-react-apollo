@@ -28,7 +28,6 @@ export const FEED_QUERY = gql`
 
 class LinkList extends Component {
   render() {
-    console.log(this.props)
     return (
       <Query query={FEED_QUERY}>
         {({ loading, error, data }) => {

@@ -48,7 +48,6 @@ class CreateLink extends Component {
             const data = store.readQuery({ query: FEED_QUERY })
 
             data.feed.links.unshift(post)
-            debugger;
             store.writeQuery({
               query: FEED_QUERY,
               data
